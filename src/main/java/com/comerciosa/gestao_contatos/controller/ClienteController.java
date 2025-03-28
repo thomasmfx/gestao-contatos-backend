@@ -59,4 +59,12 @@ public class ClienteController {
 
         return ResponseEntity.ok(updateCliente);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteCliente(@PathVariable Integer id){
+        Cliente deleteCliente = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+
+        repository.delete(deleteCliente);
+    }
 }
