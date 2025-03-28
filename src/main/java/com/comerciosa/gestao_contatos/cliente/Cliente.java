@@ -1,11 +1,9 @@
 package com.comerciosa.gestao_contatos.cliente;
 
 import com.comerciosa.gestao_contatos.contato.Contato;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,6 +11,7 @@ import java.util.List;
 @Table(name = "cliente")
 @Entity(name = "cliente")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -34,12 +33,14 @@ public class Cliente {
     private String endereco;
 
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<Contato> contatos;
 
     public Cliente(ClienteRequestDTO dados) {
         this.nome = dados.nome();
-        this.cpf = dados.cpf();
+        this.cpf = dados.cpf().replaceAll("[^0-9]", "");
         this.dataNascimento = dados.dataNascimento();
         this.endereco = dados.endereco();
     }
+
 }
