@@ -2,6 +2,7 @@ package com.comerciosa.gestao_contatos.controller;
 
 import com.comerciosa.gestao_contatos.cliente.Cliente;
 import com.comerciosa.gestao_contatos.cliente.ClienteRepository;
+import com.comerciosa.gestao_contatos.cliente.ClienteResponseDTO;
 import com.comerciosa.gestao_contatos.contato.Contato;
 import com.comerciosa.gestao_contatos.contato.ContatoRepository;
 import com.comerciosa.gestao_contatos.contato.ContatoRequestDTO;
@@ -37,11 +38,13 @@ public class ContatoController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<ContatoResponseDTO> getAll() {
+    public List<ContatoResponseDTO> getAll(@RequestParam(required = false) Integer clienteid) {
 
-        List<ContatoResponseDTO> listaContatos;
-        listaContatos = repository.findAll().stream().map(ContatoResponseDTO::new).toList();
-        return listaContatos;
+        if (clienteid != null) {
+            return repository.findByClienteId(clienteid).stream().map(ContatoResponseDTO::new).toList();
+        }
+
+        return repository.findAll().stream().map(ContatoResponseDTO::new).toList();
     }
 
 }

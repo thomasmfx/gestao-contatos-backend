@@ -28,7 +28,7 @@ public class ClienteController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<ClienteResponseDTO> getClientes(
+    public List<ClienteResponseDTO> getAll(
             @RequestParam(required = false) String nome,
             @RequestParam(required = false) String cpf
     ) {
