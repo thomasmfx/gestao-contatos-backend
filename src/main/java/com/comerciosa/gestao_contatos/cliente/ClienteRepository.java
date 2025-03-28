@@ -2,4 +2,9 @@ package com.comerciosa.gestao_contatos.cliente;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClienteRepository extends JpaRepository<Cliente, Integer> { }
+import java.util.List;
+
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
+    List<Cliente> findByNome(String nome);
+    List<Cliente> findByCpf(String cpf);
+}

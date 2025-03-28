@@ -4,6 +4,7 @@ import com.comerciosa.gestao_contatos.cliente.Cliente;
 import com.comerciosa.gestao_contatos.cliente.ClienteRepository;
 import com.comerciosa.gestao_contatos.cliente.ClienteRequestDTO;
 import com.comerciosa.gestao_contatos.cliente.ClienteResponseDTO;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,18 +21,27 @@ public class ClienteController {
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PostMapping
-    public void saveCliente(@RequestBody ClienteRequestDTO dados) {
+    public void saveCliente(@Valid @RequestBody ClienteRequestDTO dados) {
         Cliente dadosCliente = new Cliente(dados);
         repository.save(dadosCliente);
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping
-    public List<ClienteResponseDTO> getAll() {
+    public List<ClienteResponseDTO> getClientes(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String cpf
+    ) {
 
-        List<ClienteResponseDTO> listaClientes;
-        listaClientes = repository.findAll().stream().map(ClienteResponseDTO::new).toList();
-        return listaClientes;
+        if (nome != null) {
+            return repository.findByNome(nome).stream().map(ClienteResponseDTO::new).toList();
+        }
+
+        if (cpf != null) {
+            return repository.findByCpf(cpf).stream().map(ClienteResponseDTO::new).toList();
+        }
+
+        return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
     }
 
 }
