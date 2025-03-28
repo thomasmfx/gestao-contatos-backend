@@ -1,5 +1,6 @@
 package com.comerciosa.gestao_contatos.cliente;
 
+import com.comerciosa.gestao_contatos.contato.Contato;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Table(name = "cliente")
 @Entity(name = "cliente")
@@ -30,6 +32,9 @@ public class Cliente {
 
     @Column(nullable = false)
     private String endereco;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Contato> contatos;
 
     public Cliente(ClienteRequestDTO dados) {
         this.nome = dados.nome();
