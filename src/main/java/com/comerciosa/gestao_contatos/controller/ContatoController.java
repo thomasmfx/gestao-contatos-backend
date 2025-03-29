@@ -63,4 +63,12 @@ public class ContatoController {
         return ResponseEntity.ok(new ContatoResponseDTO(updateContato));
     }
 
+    @DeleteMapping("{id}")
+    public void deleteContato(@PathVariable Integer id){
+        Contato deleteContato = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Contato não encontrado"));
+
+        repository.delete(deleteContato);
+    }
+
 }
