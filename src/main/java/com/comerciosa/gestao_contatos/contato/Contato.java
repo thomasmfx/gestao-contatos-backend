@@ -2,14 +2,12 @@ package com.comerciosa.gestao_contatos.contato;
 
 import com.comerciosa.gestao_contatos.cliente.Cliente;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Table(name = "contato")
 @Entity(name = "contato")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
@@ -19,7 +17,7 @@ public class Contato {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @Column(nullable = false)
@@ -37,4 +35,5 @@ public class Contato {
         this.valor = dados.valor();
         this.observacao = dados.observacao();
     }
+
 }
