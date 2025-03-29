@@ -56,17 +56,29 @@ INSERT INTO contato (cliente_id, tipo, valor, observacao)
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
     VALUES (2, 'linkedin', 'linkedin.com/maria-souza', 'Perfil profissional');
 
-INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
-    VALUES ('Mariana Almeida', '44455566677', '1992-11-20', 'Rua da Paz, 1415');
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (5, 'telefone', '(51) 55555-5555', 'Celular trabalho');
 
-INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
-    VALUES ('Fernando Souza', '77788899900', '1978-03-08', 'Avenida Central, 1617');
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (5, 'email', 'lucas.pereira@email.com', 'Email pessoal');
 
-INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
-    VALUES ('Camila Oliveira', '22233344455', '2005-06-22', 'Travessa da Amizade, 1819');
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (6, 'telefone', '(61) 44444-4444', 'Celular pessoal');
 
-INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
-    VALUES ('Ricardo Pereira', '66677788899', '1985-01-12', 'Largo do Sossego, 2021');
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (6, 'email', 'fernando.souza@email.com', 'Email trabalho');
 
-INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
-    VALUES ('Isabela Santos', '88899900011', '1999-08-05', 'Estrada da Esperança, 2223');
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (7, 'telefone', '(71) 33333-3333', 'Celular pessoal');
+
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (7, 'instagram', '@camila_oliveira', 'Perfil pessoal');
+
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (8, 'telefone', '(81) 22222-2222', 'Celular trabalho');
+
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (9, 'telefone', '(91) 11111-1111', 'Celular pessoal');
+
+INSERT INTO contato (cliente_id, tipo, valor, observacao)
+VALUES (9, 'email', 'isabela.santos@email.com', 'Email pessoal');
