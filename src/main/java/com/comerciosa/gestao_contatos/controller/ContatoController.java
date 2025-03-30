@@ -45,6 +45,14 @@ public class ContatoController {
         return repository.findAll().stream().map(ContatoResponseDTO::new).toList();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ContatoResponseDTO> getContatoById(@PathVariable(required = false) Integer id) {
+        Contato contato = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Contato não encontrado"));
+
+        return ResponseEntity.ok(new ContatoResponseDTO(contato));
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<ContatoResponseDTO> updateContato(@PathVariable Integer id, @Valid @RequestBody ContatoRequestDTO dadosContato) {
         Contato updateContato = repository.findById(id)

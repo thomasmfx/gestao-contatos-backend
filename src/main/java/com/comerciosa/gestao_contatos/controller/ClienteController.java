@@ -40,6 +40,15 @@ public class ClienteController {
         return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ClienteResponseDTO> getClienteById(@PathVariable Integer id) {
+        Cliente cliente = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+
+        return ResponseEntity.ok(new ClienteResponseDTO(cliente));
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @PutMapping("{id}")
     public ResponseEntity<Cliente> updateCliente(@PathVariable Integer id, @Valid @RequestBody Cliente dadosCliente) {
         Cliente updateCliente = repository.findById(id)
