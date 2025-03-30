@@ -30,16 +30,11 @@ public class ClienteController {
 
     @GetMapping
     public List<ClienteResponseDTO> getAll(
-            @RequestParam(required = false) String nome,
-            @RequestParam(required = false) String cpf
+            @RequestParam(required = false) String search
     ) {
 
-        if (nome != null) {
-            return repository.findByNome(nome).stream().map(ClienteResponseDTO::new).toList();
-        }
-
-        if (cpf != null) {
-            return repository.findByCpf(cpf).stream().map(ClienteResponseDTO::new).toList();
+        if (search != null) {
+            return repository.findByNomeOrCpf(search, search).stream().map(ClienteResponseDTO::new).toList();
         }
 
         return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
