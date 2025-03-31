@@ -1,5 +1,6 @@
-package com.comerciosa.gestao_contatos.contato;
+package com.comerciosa.gestao_contatos.repository;
 
+import com.comerciosa.gestao_contatos.model.Contato;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

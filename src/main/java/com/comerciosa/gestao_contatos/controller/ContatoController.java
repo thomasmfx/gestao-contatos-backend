@@ -1,11 +1,11 @@
 package com.comerciosa.gestao_contatos.controller;
 
-import com.comerciosa.gestao_contatos.cliente.Cliente;
-import com.comerciosa.gestao_contatos.cliente.ClienteRepository;
-import com.comerciosa.gestao_contatos.contato.Contato;
-import com.comerciosa.gestao_contatos.contato.ContatoRepository;
-import com.comerciosa.gestao_contatos.contato.ContatoRequestDTO;
-import com.comerciosa.gestao_contatos.contato.ContatoResponseDTO;
+import com.comerciosa.gestao_contatos.model.Cliente;
+import com.comerciosa.gestao_contatos.repository.ClienteRepository;
+import com.comerciosa.gestao_contatos.model.Contato;
+import com.comerciosa.gestao_contatos.repository.ContatoRepository;
+import com.comerciosa.gestao_contatos.dto.request.ContatoRequestDTO;
+import com.comerciosa.gestao_contatos.dto.response.ContatoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.NoSuchElementException;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("contatos")
-@Tag(name = "Contatos", description = "Operações relacionadas aos contatos dos clientes")
+@Tag(name = "Contatos", description = "Gestão de contatos")
 public class ContatoController {
 
     private final ContatoRepository repository;

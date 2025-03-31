@@ -1,4 +1,4 @@
-package com.comerciosa.gestao_contatos.cliente;
+package com.comerciosa.gestao_contatos.dto.request;
 
 import com.comerciosa.gestao_contatos.validation.Documento;
 import jakarta.persistence.Column;

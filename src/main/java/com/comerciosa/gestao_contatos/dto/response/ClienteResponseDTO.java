@@ -1,4 +1,6 @@
-package com.comerciosa.gestao_contatos.cliente;
+package com.comerciosa.gestao_contatos.dto.response;
+
+import com.comerciosa.gestao_contatos.model.Cliente;
 
 import java.time.LocalDate;
 

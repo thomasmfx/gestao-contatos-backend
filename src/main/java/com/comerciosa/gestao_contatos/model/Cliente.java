@@ -1,6 +1,6 @@
-package com.comerciosa.gestao_contatos.cliente;
+package com.comerciosa.gestao_contatos.model;
 
-import com.comerciosa.gestao_contatos.contato.Contato;
+import com.comerciosa.gestao_contatos.dto.request.ClienteRequestDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;

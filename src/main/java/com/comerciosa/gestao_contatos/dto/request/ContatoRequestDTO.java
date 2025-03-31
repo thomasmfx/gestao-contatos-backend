@@ -1,6 +1,5 @@
-package com.comerciosa.gestao_contatos.contato;
+package com.comerciosa.gestao_contatos.dto.request;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 

@@ -1,4 +1,6 @@
-package com.comerciosa.gestao_contatos.contato;
+package com.comerciosa.gestao_contatos.dto.response;
+
+import com.comerciosa.gestao_contatos.model.Contato;
 
 public record ContatoResponseDTO(Integer id, Integer clienteId, String tipo, String valor, String observacao) {
 
