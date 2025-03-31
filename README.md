@@ -19,7 +19,7 @@ src/
 │   │   └── com/
 │   │       └── comerciosa/
 │   │           └── gestao_contatos/
-│   │               ├── config/
+│   │               ├── config/****
 │   │               │   └── OpenApiConfig.java
 │   │               ├── controller/
 │   │               │   ├── ClienteController.java
@@ -77,8 +77,6 @@ cd gestao-contatos-backend
 - PostgreSQL instalado
 - Credenciais de acesso configuradas
 
-<!-- Em `application.properties`, o projeto está configurado para criar o banco de dados e popular as tabelas automaticamente sempre que for iniciado: -->
-
 ### 1. Criação do Banco de Dados
 
 Conecte-se ao PostgreSQL com um usuário que tenha permissão para criar bancos de dados e execute:
@@ -89,26 +87,45 @@ CREATE DATABASE agenda;
 
 ### 2. População do Banco
 
-Dentro da pasta `src/main/resources/sql/`, os scripts para criação das tabelas e população de dados são, respectivamente: `schema.sql` e `data.sql`. Os scripts estão programados para serem executados toda vez que a aplicação é iniciada, porém, é necessário ajustar a configuração do banco em `application.properties` para funcionar localmente com seu usuário e senha.
+Dentro da pasta `src/main/resources/sql/`, os scripts para criação das tabelas e população de dados são, respectivamente: `schema.sql` e `data.sql`. Os scripts estão programados para serem executados toda vez que a aplicação é iniciada. Além disso, as credenciais de acesso ao banco de dados estão configuradas em `application.properties`, usando variáveis de ambiente:
 
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/agenda
-# Insira seu usuario
-spring.datasource.username=<seu_usuario>
-# Insira sua senha
-spring.datasource.password=<sua_senha>
-
-spring.jpa.hibernate.ddl-auto=none 
-
-spring.sql.init.mode=always
-spring.sql.init.schema-locations=classpath:sql/schema.sql
-spring.sql.init.data-locations=classpath:sql/data.sql
+spring.datasource.username={$DB_USER$}
+spring.datasource.password={$DB_PASSWORD$}
 ```
+
+Antes de rodar o projeto garanta que as variáveis estão configuradas no seu ambiente local para armazenar as credenciais do banco de dados:
+
+### Linux/macOS (Terminal ou ~/.zshrc/.bashrc)
+
+```bash
+export DB_USER=seu_usuario
+export DB_PASSWORD=sua_senha
+```
+
+### Windows (CMD ou PowerShell)
+
+#### CMD
+
+```cmd
+set DB_USER=seu_usuario
+set DB_PASSWORD=sua_senha
+```
+
+#### PowerShell 
+
+```powershell
+$env:DB_USER="seu_usuario"
+$env:DB_PASSWORD="sua_senha"
+```
+
+Algumas IDEs, como o IntelliJ, não carregam variáveis de ambiente automaticamente.
+Se estiver usando IntelliJ e a aplicação não rodar, recomendo que siga [este tutorial](https://coffops.com/configurar-variaveis-ambiente-intellij/).
+
+## Execução
 
 > [!NOTE]
 > **Nota:** As instruções partem da premissa de que os servidores `localhost` estão usando as portas padrões ao serem iniciados. Caso exista alguma outra aplicação usando as portas referenciadas, finalize essas aplicações ou ajuste as URLs adequadamente a fim de garantir o funcionamento do projeto.
-
-## Execução
 
 ### Pré-requisitos
 
