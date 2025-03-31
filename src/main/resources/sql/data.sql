@@ -33,52 +33,52 @@ INSERT INTO cliente (nome, cpf, data_nascimento, endereco)
 -- Contatos
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (1, 'telefone', '(11) 99999-9999', 'Celular pessoal');
+    VALUES (1, 'Telefone', '(11) 99999-9999', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (1, 'email', 'joao.silva@email.com', 'Email pessoal');
+    VALUES (1, 'E-mail', 'joao.silva@email.com', 'Email pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (2, 'telefone', '(21) 88888-8888', 'Celular trabalho');
+    VALUES (2, 'Telefone', '(21) 88888-8888', 'Celular trabalho');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (3, 'telefone', '(31) 77777-7777', 'Celular pessoal');
+    VALUES (3, 'Telefone', '(31) 77777-7777', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (3, 'email', 'carlos.oliveira@email.com', 'Email pessoal');
+    VALUES (3, 'E-mail', 'carlos.oliveira@email.com', 'Email pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (4, 'telefone', '(41) 66666-6666', 'Celular pessoal');
+    VALUES (4, 'Telefone', '(41) 66666-6666', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (4, 'email', 'ana.rodrigues@email.com', 'Email trabalho');
+    VALUES (4, 'E-mail', 'ana.rodrigues@email.com', 'Email trabalho');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-    VALUES (2, 'linkedin', 'linkedin.com/maria-souza', 'Perfil profissional');
+    VALUES (2, 'LinkedIn', 'linkedin.com/maria-souza', 'Perfil profissional');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (5, 'telefone', '(51) 55555-5555', 'Celular trabalho');
+    VALUES (5, 'Telefone', '(51) 55555-5555', 'Celular trabalho');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (5, 'email', 'lucas.pereira@email.com', 'Email pessoal');
+    VALUES (5, 'E-mail', 'lucas.pereira@email.com', 'Email pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (6, 'telefone', '(61) 44444-4444', 'Celular pessoal');
+    VALUES (6, 'Telefone', '(61) 44444-4444', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (6, 'email', 'fernando.souza@email.com', 'Email trabalho');
+    VALUES (6, 'E-mail', 'fernando.souza@email.com', 'Email trabalho');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (7, 'telefone', '(71) 33333-3333', 'Celular pessoal');
+    VALUES (7, 'Telefone', '(71) 33333-3333', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (7, 'instagram', '@camila_oliveira', 'Perfil pessoal');
+    VALUES (7, 'Instagram', '@camila_oliveira', 'Perfil pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (8, 'telefone', '(81) 22222-2222', 'Celular trabalho');
+    VALUES (8, 'Telefone', '(81) 22222-2222', 'Celular trabalho');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (9, 'telefone', '(91) 11111-1111', 'Celular pessoal');
+    VALUES (9, 'Telefone', '(91) 11111-1111', 'Celular pessoal');
 
 INSERT INTO contato (cliente_id, tipo, valor, observacao)
-VALUES (9, 'email', 'isabela.santos@email.com', 'Email pessoal');
+    VALUES (9, 'E-mail', 'isabela.santos@email.com', 'Email pessoal');
