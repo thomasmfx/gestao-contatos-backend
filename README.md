@@ -125,7 +125,7 @@ Se estiver usando IntelliJ e a aplicação não rodar, recomendo que siga [este 
 ## Execução
 
 > [!NOTE]
-> **Nota:** As instruções partem da premissa de que os servidores `localhost` estão usando as portas padrões ao serem iniciados. Caso exista alguma outra aplicação usando as portas referenciadas, finalize essas aplicações ou ajuste as URLs adequadamente a fim de garantir o funcionamento do projeto.
+> As instruções partem da premissa de que os servidores `localhost` estão usando as portas padrões ao serem iniciados. Caso exista alguma outra aplicação usando as portas referenciadas, finalize essas aplicações ou ajuste as URLs adequadamente a fim de garantir o funcionamento do projeto.
 
 ### Pré-requisitos
 
