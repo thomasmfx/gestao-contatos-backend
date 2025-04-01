@@ -184,3 +184,9 @@ Esta interface permite:
 | DELETE | /contatos/{id} | Excluir contato |
 
 Para mais detalhes e exemplos de requisições, consulte a documentação interativa do Swagger UI.
+
+## Referências
+
+Materiais que serviram de apoio na construção do backend:
+
+[https://www.youtube.com/watch?v=lUVureR5GqI](https://www.youtube.com/watch?v=lUVureR5GqI)
