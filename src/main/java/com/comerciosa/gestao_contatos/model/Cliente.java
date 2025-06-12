@@ -38,7 +38,7 @@ public class Cliente {
 
     public Cliente(ClienteRequestDTO dados) {
         this.nome = dados.nome();
-        this.cpf = dados.cpf().replaceAll("[^0-9]", "");
+        this.cpf = dados.cpf().replaceAll("\\D", "");
         this.dataNascimento = dados.dataNascimento();
         this.endereco = dados.endereco();
     }
