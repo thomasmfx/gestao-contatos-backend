@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -29,6 +28,8 @@ public class ClienteController {
     public ClienteController(ClienteRepository repository) {
         this.repository = repository;
     }
+
+    private static final String CLIENTE_NAO_ENCONTRADO_EXCEPTION = "Cliente não encontrado";
 
     @PostMapping
     @Operation(
@@ -57,28 +58,39 @@ public class ClienteController {
 
     @GetMapping
     @Operation(
-            summary = "Lista todos os clientes",
-            description = "Retorna uma lista de clientes cadastrados, podendo filtrar por nome ou CPF"
+            summary = "Lista de clientes ou quantidade por década",
+            description = "Retorna uma lista de clientes ou, se for passado um parâmetro 'decada', a quantidade por década"
     )
     @ApiResponse(
             responseCode = "200",
             description = "Lista de clientes",
             content = @Content(schema = @Schema(implementation = ClienteResponseDTO.class))
     )
-    public List<ClienteResponseDTO> getAll(
+    public Object getAll(
             @Parameter(
-                    name = "search",
-                    description = "Termo para busca por nome ou CPF",
-                    example = "João",
-                    schema = @Schema(type = "string")
+                name = "search",
+                description = "Termo para busca por nome ou CPF",
+                example = "João"
             )
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) String search,
+            
+            @Parameter(
+                name = "decada",    
+                description = "Ano base da década",
+                example = "2000"
+            )
+            @RequestParam(required = false) Integer decada
+        ) {
 
-        if (search != null) {
-            return repository.findByNomeOrCpf(search, search).stream().map(ClienteResponseDTO::new).toList();
-        }
+            if (decada != null) {
+                return repository.contarClientesPorDecada(decada).toArray().length;
+            }
 
-        return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
+            if (search != null) {
+                return repository.findByNomeOrCpf(search, search).stream().map(ClienteResponseDTO::new).toList();
+            }
+
+            return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
     }
 
     @GetMapping("{id}")
@@ -106,7 +118,7 @@ public class ClienteController {
             )
             @PathVariable Integer id) {
         Cliente cliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
 
         return ResponseEntity.ok(new ClienteResponseDTO(cliente));
     }
@@ -147,7 +159,7 @@ public class ClienteController {
             )
             @Valid @RequestBody Cliente dadosCliente) {
         Cliente updateCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
 
         updateCliente.setNome(dadosCliente.getNome());
         updateCliente.setCpf(dadosCliente.getCpf());
@@ -183,7 +195,7 @@ public class ClienteController {
             )
             @PathVariable Integer id) {
         Cliente deleteCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Cliente não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
 
         repository.delete(deleteCliente);
     }
