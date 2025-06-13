@@ -123,6 +123,25 @@
                 </annotationProcessorPaths>
             </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-maven-plugin</artifactId>
+          <version>11.9.1</version>
+          <configuration>
+            <url>jdbc:postgresql://localhost:5432/agenda</url>
+            <user>${env.DATABASE_USER}</user>
+            <password>${env.DATABASE_PASSWORD}</password>
+            <schemas>agenda</schemas>
+            <cleanDisabled>false</cleanDisabled>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.flywaydb</groupId>
+              <artifactId>flyway-database-postgresql</artifactId>
+              <version>11.9.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
 		</plugins>
 	</build>
 
