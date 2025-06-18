@@ -11,7 +11,7 @@ public class DocumentoValidator implements ConstraintValidator<Documento, String
             return false;
         }
 
-        String numeros = doc.replaceAll("[^0-9]", ""); // Remove não-numéricos
+        String numeros = doc.replaceAll("[\\D]", ""); // Remove não-numéricos
 
         return numeros.length() == 11 || numeros.length() == 14;
     }

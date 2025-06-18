@@ -28,6 +28,7 @@ public class ContatoController {
 
     private final ContatoRepository repository;
     private final ClienteRepository clienteRepository;
+    private static final String CONTATO_NAO_ENCONTRADO_MESSAGE = "Contato não encontrado";
 
     public ContatoController(ContatoRepository repository, ClienteRepository clienteRepository) {
         this.repository = repository;
@@ -99,7 +100,7 @@ public class ContatoController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Contato não encontrado",
+            description = CONTATO_NAO_ENCONTRADO_MESSAGE,
             content = @Content
     )
     public ResponseEntity<ContatoResponseDTO> getContatoById(
@@ -113,7 +114,7 @@ public class ContatoController {
             @PathVariable Integer id) {
 
         Contato contato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Contato não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
 
         return ResponseEntity.ok(new ContatoResponseDTO(contato));
     }
@@ -150,7 +151,7 @@ public class ContatoController {
             @Valid @RequestBody ContatoRequestDTO dadosContato) {
 
         Contato updateContato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Contato não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
 
         Cliente cliente = clienteRepository.findById(dadosContato.clienteId())
                 .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
@@ -176,7 +177,7 @@ public class ContatoController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Contato não encontrado",
+            description = CONTATO_NAO_ENCONTRADO_MESSAGE,
             content = @Content
     )
     public void deleteContato(
@@ -190,7 +191,7 @@ public class ContatoController {
             @PathVariable Integer id) {
 
         Contato deleteContato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Contato não encontrado"));
+                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
 
         repository.delete(deleteContato);
     }

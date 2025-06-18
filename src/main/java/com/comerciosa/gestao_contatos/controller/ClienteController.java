@@ -24,12 +24,11 @@ import java.util.NoSuchElementException;
 public class ClienteController {
 
     private final ClienteRepository repository;
+    private static final String CLIENTE_NAO_ENCONTRADO_MESSAGE = "Cliente não encontrado";
 
     public ClienteController(ClienteRepository repository) {
         this.repository = repository;
     }
-
-    private static final String CLIENTE_NAO_ENCONTRADO_EXCEPTION = "Cliente não encontrado";
 
     @PostMapping
     @Operation(
@@ -105,7 +104,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Cliente não encontrado",
+            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
             content = @Content
     )
     public ResponseEntity<ClienteResponseDTO> getClienteById(
@@ -118,7 +117,7 @@ public class ClienteController {
             )
             @PathVariable Integer id) {
         Cliente cliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
 
         return ResponseEntity.ok(new ClienteResponseDTO(cliente));
     }
@@ -140,7 +139,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Cliente não encontrado",
+            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
             content = @Content
     )
     public ResponseEntity<Cliente> updateCliente(
@@ -159,7 +158,7 @@ public class ClienteController {
             )
             @Valid @RequestBody Cliente dadosCliente) {
         Cliente updateCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
 
         updateCliente.setNome(dadosCliente.getNome());
         updateCliente.setCpf(dadosCliente.getCpf());
@@ -182,7 +181,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = "Cliente não encontrado",
+            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
             content = @Content
     )
     public void deleteCliente(
@@ -195,7 +194,7 @@ public class ClienteController {
             )
             @PathVariable Integer id) {
         Cliente deleteCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_EXCEPTION));
+                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
 
         repository.delete(deleteCliente);
     }
