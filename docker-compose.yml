@@ -1,0 +1,15 @@
+services:
+  backend:
+    build: .
+    container_name: gestao-contatos-backend
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - "7772:8080"
+    networks:
+      - gestao-contatos
+
+networks:
+  gestao-contatos:
+    external: true
