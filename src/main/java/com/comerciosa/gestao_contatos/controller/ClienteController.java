@@ -1,10 +1,12 @@
 package com.comerciosa.gestao_contatos.controller;
 
 import com.comerciosa.gestao_contatos.model.Cliente;
-import com.comerciosa.gestao_contatos.repository.ClienteRepository;
+import com.comerciosa.gestao_contatos.service.ClienteService;
 import com.comerciosa.gestao_contatos.dto.request.ClienteRequestDTO;
 import com.comerciosa.gestao_contatos.dto.response.ClienteResponseDTO;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,20 +17,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("clientes")
 @Tag(name = "Clientes", description = "Gestão de clientes")
 public class ClienteController {
 
-    private final ClienteRepository repository;
-    private static final String CLIENTE_NAO_ENCONTRADO_MESSAGE = "Cliente não encontrado";
-
-    public ClienteController(ClienteRepository repository) {
-        this.repository = repository;
-    }
+    private final ClienteService clienteService;
+    private static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
 
     @PostMapping
     @Operation(
@@ -36,7 +34,7 @@ public class ClienteController {
             description = "Cria um novo registro de cliente com os dados fornecidos"
     )
     @ApiResponse(
-            responseCode = "200",
+            responseCode = "201",
             description = "Cliente criado com sucesso"
     )
     @ApiResponse(
@@ -51,8 +49,8 @@ public class ClienteController {
                     content = @Content(schema = @Schema(implementation = ClienteRequestDTO.class))
             )
             @Valid @RequestBody ClienteRequestDTO dados) {
-        Cliente dadosCliente = new Cliente(dados);
-        repository.save(dadosCliente);
+
+        clienteService.saveCliente(dados);
     }
 
     @GetMapping
@@ -81,15 +79,7 @@ public class ClienteController {
             @RequestParam(required = false) Integer decada
         ) {
 
-            if (decada != null) {
-                return repository.contarClientesPorDecada(decada).toArray().length;
-            }
-
-            if (search != null) {
-                return repository.findByNomeOrCpf(search, search).stream().map(ClienteResponseDTO::new).toList();
-            }
-
-            return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
+            return clienteService.getAll(search, decada);
     }
 
     @GetMapping("{id}")
@@ -104,7 +94,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
+            description = CLIENTE_NAO_ENCONTRADO,
             content = @Content
     )
     public ResponseEntity<ClienteResponseDTO> getClienteById(
@@ -116,10 +106,9 @@ public class ClienteController {
                     schema = @Schema(type = "integer", format = "int32")
             )
             @PathVariable Integer id) {
-        Cliente cliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
 
-        return ResponseEntity.ok(new ClienteResponseDTO(cliente));
+        ClienteResponseDTO clienteResponse = clienteService.getClienteById(id);
+        return ResponseEntity.ok(clienteResponse);
     }
 
     @PutMapping("{id}")
@@ -139,7 +128,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
+            description = CLIENTE_NAO_ENCONTRADO,
             content = @Content
     )
     public ResponseEntity<Cliente> updateCliente(
@@ -157,16 +146,8 @@ public class ClienteController {
                     content = @Content(schema = @Schema(implementation = Cliente.class))
             )
             @Valid @RequestBody Cliente dadosCliente) {
-        Cliente updateCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
-
-        updateCliente.setNome(dadosCliente.getNome());
-        updateCliente.setCpf(dadosCliente.getCpf());
-        updateCliente.setEndereco(dadosCliente.getEndereco());
-        updateCliente.setDataNascimento(dadosCliente.getDataNascimento());
-
-        repository.save(updateCliente);
-
+                
+        Cliente updateCliente = clienteService.updateCliente(id, dadosCliente);
         return ResponseEntity.ok(updateCliente);
     }
 
@@ -181,7 +162,7 @@ public class ClienteController {
     )
     @ApiResponse(
             responseCode = "404",
-            description = CLIENTE_NAO_ENCONTRADO_MESSAGE,
+            description = CLIENTE_NAO_ENCONTRADO,
             content = @Content
     )
     public void deleteCliente(
@@ -193,9 +174,7 @@ public class ClienteController {
                     schema = @Schema(type = "integer", format = "int32")
             )
             @PathVariable Integer id) {
-        Cliente deleteCliente = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CLIENTE_NAO_ENCONTRADO_MESSAGE));
-
-        repository.delete(deleteCliente);
+        
+        clienteService.deleteCliente(id);
     }
 }
