@@ -30,10 +30,10 @@ public class ClienteService {
         }
 
         if (search != null) {
-            return repository.findByNomeOrCpf(search, search).stream().map(ClienteResponseDTO::new).toList();
+            return repository.findByNomeOrCpf(search, search).stream().map(clienteMapper::clienteToClienteResponseDTO).toList();
         }
 
-        return repository.findAll().stream().map(ClienteResponseDTO::new).toList();
+        return repository.findAll().stream().map(clienteMapper::clienteToClienteResponseDTO).toList();
     }
 
     public ClienteResponseDTO getClienteById(Integer id) {
