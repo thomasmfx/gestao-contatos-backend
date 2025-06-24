@@ -1,12 +1,11 @@
 package com.comerciosa.gestao_contatos.controller;
 
-import com.comerciosa.gestao_contatos.model.Cliente;
-import com.comerciosa.gestao_contatos.repository.ClienteRepository;
-import com.comerciosa.gestao_contatos.model.Contato;
-import com.comerciosa.gestao_contatos.repository.ContatoRepository;
+import com.comerciosa.gestao_contatos.service.ContatoService;
 import com.comerciosa.gestao_contatos.dto.request.ContatoRequestDTO;
 import com.comerciosa.gestao_contatos.dto.response.ContatoResponseDTO;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,22 +17,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
+@RequiredArgsConstructor
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("contatos")
 @Tag(name = "Contatos", description = "Gestão de contatos")
 public class ContatoController {
 
-    private final ContatoRepository repository;
-    private final ClienteRepository clienteRepository;
+    private final ContatoService contatoService;
     private static final String CONTATO_NAO_ENCONTRADO_MESSAGE = "Contato não encontrado";
-
-    public ContatoController(ContatoRepository repository, ClienteRepository clienteRepository) {
-        this.repository = repository;
-        this.clienteRepository = clienteRepository;
-    }
 
     @PostMapping
     @Operation(
@@ -56,11 +49,7 @@ public class ContatoController {
                     content = @Content(schema = @Schema(implementation = ContatoRequestDTO.class)))
             @Valid @RequestBody ContatoRequestDTO dados) {
 
-        Cliente cliente = clienteRepository.findById(dados.clienteId())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        Contato novoContato = new Contato(dados, cliente);
-        repository.save(novoContato);
+        contatoService.saveContato(dados);
     }
 
     @GetMapping
@@ -82,10 +71,7 @@ public class ContatoController {
             )
             @RequestParam(required = false) Integer clienteid) {
 
-        if (clienteid != null) {
-            return repository.findByClienteId(clienteid).stream().map(ContatoResponseDTO::new).toList();
-        }
-        return repository.findAll().stream().map(ContatoResponseDTO::new).toList();
+        return contatoService.getAll(clienteid);
     }
 
     @GetMapping("{id}")
@@ -113,10 +99,7 @@ public class ContatoController {
             )
             @PathVariable Integer id) {
 
-        Contato contato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
-
-        return ResponseEntity.ok(new ContatoResponseDTO(contato));
+        return ResponseEntity.ok(contatoService.getContatoById(id));
     }
 
     @PutMapping("{id}")
@@ -150,20 +133,7 @@ public class ContatoController {
             )
             @Valid @RequestBody ContatoRequestDTO dadosContato) {
 
-        Contato updateContato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
-
-        Cliente cliente = clienteRepository.findById(dadosContato.clienteId())
-                .orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
-
-        updateContato.setCliente(cliente);
-        updateContato.setTipo(dadosContato.tipo());
-        updateContato.setValor(dadosContato.valor());
-        updateContato.setObservacao(dadosContato.observacao());
-
-        repository.save(updateContato);
-
-        return ResponseEntity.ok(new ContatoResponseDTO(updateContato));
+        return ResponseEntity.ok(contatoService.updateContato(id, dadosContato));
     }
 
     @DeleteMapping("{id}")
@@ -190,9 +160,6 @@ public class ContatoController {
             )
             @PathVariable Integer id) {
 
-        Contato deleteContato = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException(CONTATO_NAO_ENCONTRADO_MESSAGE));
-
-        repository.delete(deleteContato);
+        contatoService.deleteContato(id);
     }
 }
