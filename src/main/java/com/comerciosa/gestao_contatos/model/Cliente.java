@@ -1,6 +1,5 @@
 package com.comerciosa.gestao_contatos.model;
 
-import com.comerciosa.gestao_contatos.dto.request.ClienteRequestDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,6 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @EqualsAndHashCode(of = "id")
 public class Cliente {
 
@@ -35,12 +35,4 @@ public class Cliente {
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Contato> contatos;
-
-    public Cliente(ClienteRequestDTO dados) {
-        this.nome = dados.nome();
-        this.cpf = dados.cpf().replaceAll("\\D", "");
-        this.dataNascimento = dados.dataNascimento();
-        this.endereco = dados.endereco();
-    }
-
 }

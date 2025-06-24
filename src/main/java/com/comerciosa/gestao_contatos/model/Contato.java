@@ -1,6 +1,5 @@
 package com.comerciosa.gestao_contatos.model;
 
-import com.comerciosa.gestao_contatos.dto.request.ContatoRequestDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,6 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder(toBuilder = true)
 @EqualsAndHashCode(of = "id")
 public class Contato {
 
@@ -28,12 +28,4 @@ public class Contato {
 
     @Column(nullable = false)
     private String observacao;
-
-    public Contato(ContatoRequestDTO dados, Cliente cliente) {
-        this.cliente = cliente;
-        this.tipo = dados.tipo();
-        this.valor = dados.valor();
-        this.observacao = dados.observacao();
-    }
-
 }

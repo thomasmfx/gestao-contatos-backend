@@ -27,7 +27,14 @@ public class ContatoService {
 
     public void saveContato(ContatoRequestDTO dados) {
         Cliente cliente = clienteRepository.findById(dados.clienteId()).orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + dados.clienteId()));
-        Contato dadosContato = new Contato(dados, cliente);
+
+        Contato dadosContato = Contato.builder()
+                .cliente(cliente)
+                .tipo(dados.tipo())
+                .valor(dados.valor())
+                .observacao(dados.observacao())
+                .build();
+
         contatoRepository.save(dadosContato);
     }
 

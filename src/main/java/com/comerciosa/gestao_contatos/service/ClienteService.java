@@ -20,7 +20,15 @@ public class ClienteService {
     private static final String CLIENTE_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
 
     public void saveCliente(ClienteRequestDTO dados) {
-        Cliente dadosCliente = new Cliente(dados);
+        String cpfLimpo = dados.cpf().replaceAll("[\\D]", "");
+
+        Cliente dadosCliente = Cliente.builder()
+            .nome(dados.nome())
+            .cpf(cpfLimpo)
+            .dataNascimento(dados.dataNascimento())
+            .endereco(dados.endereco())
+            .build();
+
         repository.save(dadosCliente);
     }
 
