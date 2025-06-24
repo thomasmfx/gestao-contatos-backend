@@ -132,7 +132,7 @@
           <artifactId>flyway-maven-plugin</artifactId>
           <version>11.9.1</version>
           <configuration>
-            <url>jdbc:postgresql://db:5432/agenda</url>
+            <url>jdbc:postgresql://${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_NAME}</url>
             <user>${DATABASE_USER}</user>
             <password>${DATABASE_PASSWORD}</password>
             <schemas>agenda</schemas>
