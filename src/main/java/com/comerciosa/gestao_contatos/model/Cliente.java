@@ -1,6 +1,7 @@
 package com.comerciosa.gestao_contatos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,10 +30,10 @@ public class Cliente {
     @Column(name = "data_nascimento", nullable = false)
     private LocalDate dataNascimento;
 
-    @Column(nullable = false)
-    private String endereco;
-
     @OneToMany(mappedBy = "cliente")
     @JsonIgnore
     private List<Contato> contatos;
+
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private Endereco endereco;
 }

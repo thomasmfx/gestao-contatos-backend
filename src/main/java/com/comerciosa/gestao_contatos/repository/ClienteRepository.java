@@ -2,6 +2,7 @@ package com.comerciosa.gestao_contatos.repository;
 
 import com.comerciosa.gestao_contatos.dto.response.ClienteDecadaDTO;
 import com.comerciosa.gestao_contatos.model.Cliente;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

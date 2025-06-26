@@ -8,7 +8,6 @@ import com.comerciosa.gestao_contatos.dto.response.ClienteResponseDTO;
 
 @Mapper(componentModel = "spring")
 public interface ClienteMapper {
-
     ClienteRequestDTO clienteToClienteRequestDTO(Cliente cliente);
     ClienteResponseDTO clienteToClienteResponseDTO(Cliente cliente);
 }
