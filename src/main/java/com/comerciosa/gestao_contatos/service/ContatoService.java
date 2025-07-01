@@ -25,7 +25,7 @@ public class ContatoService {
     private static final String CLIENTE_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
     private static final String CONTATO_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
 
-    public void saveContato(ContatoRequestDTO dados) {
+    public Contato saveContato(ContatoRequestDTO dados) {
         Cliente cliente = clienteRepository.findById(dados.clienteId()).orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + dados.clienteId()));
 
         Contato dadosContato = Contato.builder()
@@ -35,7 +35,7 @@ public class ContatoService {
                 .observacao(dados.observacao())
                 .build();
 
-        contatoRepository.save(dadosContato);
+        return contatoRepository.save(dadosContato);
     }
 
     public List<ContatoResponseDTO> getAll(Integer clienteId) {

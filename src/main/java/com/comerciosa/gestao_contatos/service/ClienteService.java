@@ -23,7 +23,7 @@ public class ClienteService {
     private static final String CLIENTE_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
     private static final String ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID = "Endereço não encontrado com o Cliente ID: ";
 
-    public void saveCliente(ClienteRequestDTO dados) {
+    public Cliente saveCliente(ClienteRequestDTO dados) {
         String cpfLimpo = dados.cpf().replaceAll("[\\D]", "");
 
         Cliente dadosCliente = Cliente.builder()
@@ -44,6 +44,8 @@ public class ClienteService {
             .build();
 
         enderecoRepository.save(endereco);
+
+        return clienteSalvo;
     }
 
     public Object getAll(String search, Integer decada) {

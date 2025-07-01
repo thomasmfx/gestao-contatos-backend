@@ -42,7 +42,7 @@ public class ClienteController {
             description = "Dados inválidos fornecidos",
             content = @Content
     )
-    public void saveCliente(
+    public ResponseEntity<Cliente> saveCliente(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "Dados do cliente a ser cadastrado",
                     required = true,
@@ -50,7 +50,7 @@ public class ClienteController {
             )
             @Valid @RequestBody ClienteRequestDTO dados) {
 
-        clienteService.saveCliente(dados);
+        return ResponseEntity.ok(clienteService.saveCliente(dados));
     }
 
     @GetMapping
