@@ -4,11 +4,15 @@ Este repositório contém a implementação backend do sistema de gestão de con
 
 ## Tecnologias Utilizadas
 
-- Java 
+- Java 21
 - Spring Boot
 - Maven
 - Hibernate
 - PostgreSQL
+- Docker
+- Mapstruct
+- JUnit 5
+- Flyway
 
 ## Estrutura do Projeto
 
@@ -19,41 +23,58 @@ src/
 │   │   └── com/
 │   │       └── comerciosa/
 │   │           └── gestao_contatos/
-│   │               ├── config/****
+│   │               ├── config/
 │   │               │   └── OpenApiConfig.java
 │   │               ├── controller/
 │   │               │   ├── ClienteController.java
 │   │               │   └── ContatoController.java
 │   │               ├── dto/
+│   │               │   ├── error/
+│   │               │   │   └── ErrorResponseDTO.java
 │   │               │   ├── request/
 │   │               │   │   ├── ClienteRequestDTO.java
 │   │               │   │   └── ContatoRequestDTO.java
 │   │               │   └── response/
+│   │               │       ├── ClienteDecadaResponseDTO.java
 │   │               │       ├── ClienteResponseDTO.java
-│   │               │       └── ContatoResponseDTO.java
+│   │               │       ├── ClienteResponseDTO.java
+│   │               │       └── EnderecoResponseDTO.java
+│   │               ├── exception/
+│   │               │   ├── ControllerAdvisor.java
+│   │               │   └── ResourceNotFoundException.java
+│   │               ├── mapper/
+│   │               │   ├── ClienteMapper.java
+│   │               │   ├── ContatoMapper.java
+│   │               │   └── EnderecoMapper.java
 │   │               ├── model/
 │   │               │   ├── Cliente.java
-│   │               │   └── Contato.java
+│   │               │   ├── Cliente.java
+│   │               │   └── Endereco.java
 │   │               ├── repository/
 │   │               │   ├── ClienteRepository.java
-│   │               │   └── ContatoRepository.java
+│   │               │   ├── ContatoRepository.java
+│   │               │   └── EnderecoRepository.java
+│   │               ├── service/
+│   │               │   ├── ClienteService.java
+│   │               │   └── ContatoService.java
 │   │               ├── validation/
 │   │               │   ├── Documento.java
 │   │               │   └── DocumentoValidator.java
 │   │               └── GestaoContatosApplication.java
 │   └── resources/
-│       ├── sql/
-│           ├── data.sql
-│           └── schema.sql
-│       ├── static/
-│       ├── templates/
 │       └── application.properties
 └── test/
-    └── java/
-        └── com/
-            └── comerciosa/
-                └── gestaocontatos/
-                    └── GestaoContatosApplication.java
+│   └── java/
+│       └── com/
+│           └── comerciosa/
+│               └── gestaocontatos/
+│                   │   ├── Controller/
+│                   │   │   └── ClienteControllerTest.java
+│                   │   └── Validation/
+│                   │   │   └── DocumentoValidatorTest.java                    
+│                   └── GestaoContatosApplication.java
+├── Dockerfile
+└── README.md
 ```
 
 ## Instalação
@@ -70,37 +91,36 @@ git clone https://github.com/thomasmfx/gestao-contatos-backend.git
 cd gestao-contatos-backend
 ```
 
-## Configuração do Banco de Dados
+## Configuração das variáveis de ambiente
 
-### Pré-requisitos
+Para estabelecer a conexão com o banco de dados, crie um arquivo `.env` na raíz do projeto e configure as variáveis:
 
-- PostgreSQL instalado
-- Credenciais de acesso configuradas
-
-### 1. Criação do Banco de Dados
-
-Conecte-se ao PostgreSQL com um usuário que tenha permissão para criar bancos de dados e execute:
-
-```sql
-CREATE DATABASE agenda;
+```js
+DATABASE_USER={$DATABASE_USER}
+DATABASE_PASSWORD={$DATABASE_PASSWORD}
+DATABASE_HOST={$DATABASE_HOST}
+DATABASE_PORT={$DATABASE_PORT}
+DATABASE_NAME={$DATABASE_NAME}
 ```
 
-### 2. População do Banco
+Lembre-se de substituir os valores manualmente no `.env`, ou crie as variáveis na sua máquina e referencia elas. Exemplo:
 
-Dentro da pasta `src/main/resources/sql/`, os scripts para criação das tabelas e população de dados são, respectivamente: `schema.sql` e `data.sql`. Os scripts estão programados para serem executados toda vez que a aplicação é iniciada. Além disso, as credenciais de acesso ao banco de dados estão configuradas em `application.properties`, usando variáveis de ambiente:
-
-```properties
-spring.datasource.username={$DB_USER$}
-spring.datasource.password={$DB_PASSWORD$}
+```js
+DATABASE_USER=postgres // manualmente
+// ou
+DATABASE_USER={$DATABASE_USER} // consumindo da máquina
 ```
 
-Antes de rodar o projeto garanta que as variáveis estão configuradas no seu ambiente local para armazenar as credenciais do banco de dados:
+Para criar varáveis de ambiente globais na sua máquina:
 
-### Linux/macOS (Terminal ou ~/.zshrc/.bashrc)
+### Linux/macOS
 
 ```bash
-export DB_USER=seu_usuario
-export DB_PASSWORD=sua_senha
+export DATABASE_USER=<usuario>
+export DATABASE_PASSWORD=<senha>
+export DATABASE_HOST=<host>
+export DATABASE_PORT=<porta>
+export DATABASE_NAME=<database>
 ```
 
 ### Windows (CMD ou PowerShell)
@@ -108,48 +128,29 @@ export DB_PASSWORD=sua_senha
 #### CMD
 
 ```cmd
-set DB_USER=seu_usuario
-set DB_PASSWORD=sua_senha
+set DATABASE_USER=<usuario>
+set DATABASE_PASSWORD=<senha>
+set DATABASE_HOST=<host>
+set DATABASE_PORT=<porta>
+set DATABASE_NAME=<database>
 ```
 
 #### PowerShell 
 
 ```powershell
-$env:DB_USER="seu_usuario"
-$env:DB_PASSWORD="sua_senha"
+$env:DATABASE_USER="usuario"
+$env:DATABASE_PASSWORD="senha"
+$env:DATABASE_HOST="host"
+$env:DATABASE_PORT="porta"
+$env:DATABASE_NAME="database"
 ```
-
-Algumas IDEs, como o IntelliJ, não carregam variáveis de ambiente automaticamente.
-Se estiver usando IntelliJ e a aplicação não rodar, recomendo que siga [este tutorial](https://coffops.com/configurar-variaveis-ambiente-intellij/).
-
-## Execução
-
-> [!NOTE]
-> As instruções partem da premissa de que os servidores `localhost` estão usando as portas padrões ao serem iniciados. Caso exista alguma outra aplicação usando as portas referenciadas, finalize essas aplicações ou ajuste as URLs adequadamente a fim de garantir o funcionamento do projeto.
-
-### Pré-requisitos
-
-- JDK (versão 17)
-- Maven
-- PostgreSQL com banco configurado conforme instruções deste README.md
-
-### Passos para execução
-
-1. Compile e execute o projeto:
-
-```bash
-mvn clean install
-mvn spring-boot:run
-```
-
-Pronto! Caso tudo ocorra certo, a API estará disponível em: `http://localhost:8080`
 
 ## Documentação da API
 
 A API utiliza Springdoc OpenAPI para documentação interativa. Após iniciar o servidor, você pode acessar a documentação completa em:
 
 ```
-http://localhost:8080/swagger-ui/index.html#/
+http://localhost:7772/swagger-ui/index.html#/
 ```
 
 Esta interface permite:
