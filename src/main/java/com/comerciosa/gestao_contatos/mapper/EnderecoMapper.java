@@ -7,5 +7,5 @@ import com.comerciosa.gestao_contatos.model.Endereco;
 
 @Mapper(componentModel = "spring")
 public interface EnderecoMapper {
-    EnderecoResponseDTO enderecoToEnderecoResponseDTO(Endereco endereco);
+    EnderecoResponseDTO toEnderecoResponseDTO(Endereco endereco);
 }

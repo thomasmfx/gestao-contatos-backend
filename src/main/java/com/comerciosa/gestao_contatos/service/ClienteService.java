@@ -27,21 +27,21 @@ public class ClienteService {
         String cpfLimpo = dados.cpf().replaceAll("[\\D]", "");
 
         Cliente dadosCliente = Cliente.builder()
-            .nome(dados.nome())
-            .cpf(cpfLimpo)
-            .dataNascimento(dados.dataNascimento())
-            .build();
+                .nome(dados.nome())
+                .cpf(cpfLimpo)
+                .dataNascimento(dados.dataNascimento())
+                .build();
 
         Cliente clienteSalvo = clienteRepository.save(dadosCliente);
 
         Endereco endereco = Endereco.builder()
-            .rua(dados.endereco().getRua())
-            .numero(dados.endereco().getNumero())
-            .cidade(dados.endereco().getCidade())
-            .estado(dados.endereco().getEstado())
-            .cep(dados.endereco().getCep())
-            .cliente(clienteSalvo)
-            .build();
+                .rua(dados.endereco().getRua())
+                .numero(dados.endereco().getNumero())
+                .cidade(dados.endereco().getCidade())
+                .estado(dados.endereco().getEstado())
+                .cep(dados.endereco().getCep())
+                .cliente(clienteSalvo)
+                .build();
 
         enderecoRepository.save(endereco);
 
@@ -54,28 +54,29 @@ public class ClienteService {
         }
 
         if (search != null) {
-            return clienteRepository.findByNomeOrCpf(search, search).stream().map(clienteMapper::clienteToClienteResponseDTO).toList();
+            return clienteRepository.findByNomeOrCpf(search, search).stream().map(clienteMapper::toClienteResponseDTO)
+                    .toList();
         }
 
-        return clienteRepository.findAll().stream().map(clienteMapper::clienteToClienteResponseDTO).toList();
+        return clienteRepository.findAll().stream().map(clienteMapper::toClienteResponseDTO).toList();
     }
 
     public ClienteResponseDTO getClienteById(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
         Endereco enderecoCliente = enderecoRepository.findByClienteId(cliente.getId())
-            .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
 
         cliente.setEndereco(enderecoCliente);
 
-        return clienteMapper.clienteToClienteResponseDTO(cliente);
+        return clienteMapper.toClienteResponseDTO(cliente);
     }
 
     public Cliente updateCliente(Integer id, Cliente dadosCliente) {
         Cliente updateCliente = clienteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
         Endereco updateEnderecoCliente = enderecoRepository.findByClienteId(id)
-            .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
 
         Endereco enderecoCliente = dadosCliente.getEndereco();
 
@@ -95,7 +96,7 @@ public class ClienteService {
 
     public void deleteCliente(Integer id) {
         Cliente deleteCliente = clienteRepository.findById(id)
-            .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
 
         clienteRepository.delete(deleteCliente);
     }

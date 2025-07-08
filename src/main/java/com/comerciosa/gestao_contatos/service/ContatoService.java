@@ -26,7 +26,8 @@ public class ContatoService {
     private static final String CONTATO_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
 
     public Contato saveContato(ContatoRequestDTO dados) {
-        Cliente cliente = clienteRepository.findById(dados.clienteId()).orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + dados.clienteId()));
+        Cliente cliente = clienteRepository.findById(dados.clienteId())
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + dados.clienteId()));
 
         Contato dadosContato = Contato.builder()
                 .cliente(cliente)
@@ -40,20 +41,24 @@ public class ContatoService {
 
     public List<ContatoResponseDTO> getAll(Integer clienteId) {
         if (clienteId != null) {
-            return contatoRepository.findByClienteId(clienteId).stream().map(contatoMapper::contatoToContatoResponseDTO).toList();
+            return contatoRepository.findByClienteId(clienteId).stream().map(contatoMapper::toContatoResponseDTO)
+                    .toList();
         }
 
-        return contatoRepository.findAll().stream().map(contatoMapper::contatoToContatoResponseDTO).toList();
+        return contatoRepository.findAll().stream().map(contatoMapper::toContatoResponseDTO).toList();
     }
 
     public ContatoResponseDTO getContatoById(Integer id) {
-        Contato contato = contatoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
-        return contatoMapper.contatoToContatoResponseDTO(contato);
+        Contato contato = contatoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+        return contatoMapper.toContatoResponseDTO(contato);
     }
 
     public ContatoResponseDTO updateContato(Integer id, ContatoRequestDTO dadosContato) {
-        Contato updateContato = contatoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
-        Cliente cliente = clienteRepository.findById(dadosContato.clienteId()).orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+        Contato updateContato = contatoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+        Cliente cliente = clienteRepository.findById(dadosContato.clienteId())
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
 
         updateContato.setCliente(cliente);
         updateContato.setTipo(dadosContato.tipo());
@@ -62,11 +67,12 @@ public class ContatoService {
 
         contatoRepository.save(updateContato);
 
-        return contatoMapper.contatoToContatoResponseDTO(updateContato);
+        return contatoMapper.toContatoResponseDTO(updateContato);
     }
 
     public void deleteContato(Integer id) {
-        Contato deleteContato = contatoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+        Contato deleteContato = contatoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
         contatoRepository.delete(deleteContato);
     }
 }

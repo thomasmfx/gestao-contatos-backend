@@ -9,10 +9,10 @@ import com.comerciosa.gestao_contatos.model.Contato;
 
 @Mapper(componentModel = "spring")
 public interface ContatoMapper {
-    
+
     @Mapping(source = "cliente.id", target = "clienteId")
-    ContatoRequestDTO contatoToContatoRequestDTO(Contato contato);
-    
+    ContatoRequestDTO toContatoRequestDTO(Contato contato);
+
     @Mapping(source = "cliente.id", target = "clienteId")
-    ContatoResponseDTO contatoToContatoResponseDTO(Contato contato);
+    ContatoResponseDTO toContatoResponseDTO(Contato contato);
 }
