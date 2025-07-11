@@ -18,36 +18,36 @@ class DocumentoValidatorTest {
     }
 
     @DisplayName("Deve retornar TRUE para documentos válidos")
-    @ParameterizedTest(name = "Documento: ${0}")
+    @ParameterizedTest(name = "Documento: {0}")
     @ValueSource(strings = {
         "99999999999",          // CPF sem pontuação
         "999.999.999-99",       // CPF com pontuação
         "11222333000144",       // CNPJ sem pontuação
         "11.222.333/0001-44"    // CNPJ com pontuação
     })
-    void deveValidarDocumentosInvalidos(String documentoValido) {
-        boolean isValid = validator.isValid(documentoValido, null);
+    void isValid_DocumentoValido_DeveRetornarTrue(String documento) {
+        boolean isValid = validator.isValid(documento, null);
         assertTrue(isValid);
     }
 
     @DisplayName("Deve retornar FALSO para documentos inválidos")
-    @ParameterizedTest(name = "Documento: ${0}")
+    @ParameterizedTest(name = "Documento: {0}")
     @ValueSource(strings = {
         "9999999999",           // Menos de 11 dígitos
         "112223330001",         // Entre 11 e 14 dígitos
         "            ",         // Apenas espaços em branco
         "abd.def.ghi-jk"        // Sem números
     })
-    void deveInvalidarDocumentosInvalidos(String documentoInvalido) {
-        boolean isValid = validator.isValid(documentoInvalido, null);
+    void isValid_DocumentoInvalido_DeveRetornarFalso(String documento) {
+        boolean isValid = validator.isValid(documento, null);
         assertFalse(isValid);
     }
 
     @DisplayName("Deve retornar FALSO para documentos nulos ou vazios")
     @ParameterizedTest(name = "Documento: {0}")
     @NullAndEmptySource 
-    void deveInvalidarDocumentosNulosOuVazios(String documentoNuloOuVazio) {
-        boolean isValid = validator.isValid(documentoNuloOuVazio, null);
+    void isValid_DocumentoNuloOuVazio_DeveRetornarFalso(String documento) {
+        boolean isValid = validator.isValid(documento, null);
         assertFalse(isValid);
     }
 }
