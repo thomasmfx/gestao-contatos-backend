@@ -5,11 +5,12 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.tags.Tag;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
 @Configuration
-public class OpenApiConfig {
+public class AppConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
@@ -20,7 +21,11 @@ public class OpenApiConfig {
                         .description("Documentação da API de clientes e contatos"))
                 .tags(List.of(
                         new Tag().name("Clientes").description("Gestão de clientes"),
-                        new Tag().name("Contatos").description("Gestão de contatos")
-                ));
+                        new Tag().name("Contatos").description("Gestão de contatos")));
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }
