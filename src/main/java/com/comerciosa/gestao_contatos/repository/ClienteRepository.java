@@ -22,5 +22,11 @@ public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
             """)
     List<ClienteDecadaResponseDTO> contarClientesPorDecada(@Param("decada") Integer decada);
 
+    @Query("""
+            SELECT c
+            FROM cliente c
+            WHERE nome LIKE %:nome%
+            OR cpf LIKE %:cpf%
+            """)
     List<Cliente> findByNomeOrCpf(String nome, String cpf);
 }

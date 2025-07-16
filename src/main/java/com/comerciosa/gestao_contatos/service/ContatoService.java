@@ -39,9 +39,15 @@ public class ContatoService {
         return contatoRepository.save(dadosContato);
     }
 
-    public List<ContatoResponseDTO> getAll(Integer clienteId) {
+    public List<ContatoResponseDTO> getAll(Integer clienteId, String search) {
+        if (clienteId != null && search != null) {
+            return contatoRepository.findByClienteIdAndTipoOrValorOrObservacao(clienteId, search).stream()
+                .map(contatoMapper::toContatoResponseDTO)
+                .toList();
+        }
         if (clienteId != null) {
-            return contatoRepository.findByClienteId(clienteId).stream().map(contatoMapper::toContatoResponseDTO)
+            return contatoRepository.findByClienteId(clienteId).stream()
+                    .map(contatoMapper::toContatoResponseDTO)
                     .toList();
         }
 

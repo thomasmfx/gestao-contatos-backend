@@ -71,9 +71,15 @@ public class ContatoController {
                     example = "1",
                     schema = @Schema(type = "integer", format = "int32")
             )
-            @RequestParam(required = false) Integer clienteid) {
+            @RequestParam(required = false) Integer clienteid,
+            @Parameter(
+                    name = "search",
+                    description = "Tipo, valor ou observação do cliente para filtrar contatos",
+                    example = "Telefone"
+            )
+            @RequestParam(required = false) String search) {
 
-        return contatoService.getAll(clienteid);
+        return contatoService.getAll(clienteid, search);
     }
 
     @GetMapping("{id}")
