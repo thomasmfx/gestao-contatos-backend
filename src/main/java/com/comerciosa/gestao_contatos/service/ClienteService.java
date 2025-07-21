@@ -45,9 +45,9 @@ public class ClienteService {
                     .cep(dados.endereco().getCep())
                     .cliente(clienteSalvo)
                     .build();
-    
+
             enderecoRepository.save(endereco);
-    
+
             return clienteSalvo;
         } catch (DataIntegrityViolationException e) {
             throw new BadRequestException("CPF já cadastrado.");
@@ -97,7 +97,11 @@ public class ClienteService {
         updateCliente.setDataNascimento(dadosCliente.getDataNascimento());
         updateCliente.setEndereco(updateEnderecoCliente);
 
-        return clienteRepository.save(updateCliente);
+        try {
+            return clienteRepository.save(updateCliente);
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("CPF já cadastrado.");
+        }
     }
 
     public void deleteCliente(Integer id) {
