@@ -1,9 +1,11 @@
 package com.comerciosa.gestao_contatos.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.comerciosa.gestao_contatos.dto.request.ClienteRequestDTO;
 import com.comerciosa.gestao_contatos.dto.response.ClienteResponseDTO;
+import com.comerciosa.gestao_contatos.exception.BadRequestException;
 import com.comerciosa.gestao_contatos.exception.ResourceNotFoundException;
 import com.comerciosa.gestao_contatos.mapper.ClienteMapper;
 import com.comerciosa.gestao_contatos.model.Cliente;
@@ -32,20 +34,24 @@ public class ClienteService {
                 .dataNascimento(dados.dataNascimento())
                 .build();
 
-        Cliente clienteSalvo = clienteRepository.save(dadosCliente);
+        try {
+            Cliente clienteSalvo = clienteRepository.save(dadosCliente);
 
-        Endereco endereco = Endereco.builder()
-                .rua(dados.endereco().getRua())
-                .numero(dados.endereco().getNumero())
-                .cidade(dados.endereco().getCidade())
-                .estado(dados.endereco().getEstado())
-                .cep(dados.endereco().getCep())
-                .cliente(clienteSalvo)
-                .build();
-
-        enderecoRepository.save(endereco);
-
-        return clienteSalvo;
+            Endereco endereco = Endereco.builder()
+                    .rua(dados.endereco().getRua())
+                    .numero(dados.endereco().getNumero())
+                    .cidade(dados.endereco().getCidade())
+                    .estado(dados.endereco().getEstado())
+                    .cep(dados.endereco().getCep())
+                    .cliente(clienteSalvo)
+                    .build();
+    
+            enderecoRepository.save(endereco);
+    
+            return clienteSalvo;
+        } catch (DataIntegrityViolationException e) {
+            throw new BadRequestException("CPF já cadastrado.");
+        }
     }
 
     public Object getAll(String search, Integer decada) {
