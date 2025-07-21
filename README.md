@@ -1,6 +1,6 @@
 # API Sistema de Gestão de Contatos - Backend
 
-Este repositório contém a implementação backend do sistema de gestão de contatos desenvolvido para o desafio da Muralis. O backend foi construído como uma API RESTful utilizando Java e Spring Boot.
+Este repositório contém a implementação backend do sistema de gestão de contatos desenvolvido para o desafio da Muralis. O backend foi construído como uma API RESTful utilizando Java e Spring Boot, além da integração com a API externa da ViaCep vara busca de endereço.
 
 ## Tecnologias Utilizadas
 
@@ -10,9 +10,8 @@ Este repositório contém a implementação backend do sistema de gestão de con
 - Hibernate
 - PostgreSQL
 - Docker
-- Mapstruct
 - JUnit 5
-- Flyway
+- ViaCep API
 
 ## Estrutura do Projeto
 
@@ -24,39 +23,45 @@ src/
 │   │       └── comerciosa/
 │   │           └── gestao_contatos/
 │   │               ├── config/
-│   │               │   └── OpenApiConfig.java
+│   │               │   └── AppConfig.java
 │   │               ├── controller/
 │   │               │   ├── ClienteController.java
-│   │               │   └── ContatoController.java
+│   │               │   ├── ContatoController.java
+│   │               │   └── EnderecoViaCepController.java
 │   │               ├── dto/
 │   │               │   ├── error/
 │   │               │   │   └── ErrorResponseDTO.java
 │   │               │   ├── request/
 │   │               │   │   ├── ClienteRequestDTO.java
-│   │               │   │   └── ContatoRequestDTO.java
+│   │               │   │   ├── ContatoRequestDTO.java
+│   │               │   │   └── EnderecoRequestDTO.java
 │   │               │   └── response/
 │   │               │       ├── ClienteDecadaResponseDTO.java
 │   │               │       ├── ClienteResponseDTO.java
 │   │               │       ├── ClienteResponseDTO.java
 │   │               │       └── EnderecoResponseDTO.java
 │   │               ├── exception/
+│   │               │   ├── BadRequestException.java
 │   │               │   ├── ControllerAdvisor.java
 │   │               │   └── ResourceNotFoundException.java
 │   │               ├── mapper/
 │   │               │   ├── ClienteMapper.java
 │   │               │   ├── ContatoMapper.java
-│   │               │   └── EnderecoMapper.java
+│   │               │   ├── EnderecoMapper.java
+│   │               │   └── EnderecoViaCepMapper.java
 │   │               ├── model/
 │   │               │   ├── Cliente.java
-│   │               │   ├── Cliente.java
-│   │               │   └── Endereco.java
+│   │               │   ├── Contato.java
+│   │               │   ├── Endereco.java
+│   │               │   └── EnderecoViaCep.java
 │   │               ├── repository/
 │   │               │   ├── ClienteRepository.java
 │   │               │   ├── ContatoRepository.java
 │   │               │   └── EnderecoRepository.java
 │   │               ├── service/
 │   │               │   ├── ClienteService.java
-│   │               │   └── ContatoService.java
+│   │               │   ├── ContatoService.java
+│   │               │   └── EnderecoViaCepService.java
 │   │               ├── validation/
 │   │               │   ├── Documento.java
 │   │               │   └── DocumentoValidator.java
@@ -68,12 +73,13 @@ src/
 │       └── com/
 │           └── comerciosa/
 │               └── gestaocontatos/
-│                   │   ├── Controller/
-│                   │   │   └── ClienteControllerTest.java
+│                   │   ├── Service/
+│                   │   │   └── EnderecoViaCepServiceTest.java
 │                   │   └── Validation/
 │                   │   │   └── DocumentoValidatorTest.java                    
 │                   └── GestaoContatosApplication.java
 ├── Dockerfile
+├── pom.xml
 └── README.md
 ```
 
@@ -172,6 +178,12 @@ Esta interface permite:
 | POST | /clientes | Cadastrar novo cliente |
 | PUT | /clientes/{id} | Atualizar cliente |
 | DELETE | /clientes/{id} | Excluir cliente |
+
+#### Endereço
+
+| Método | URL | Descrição |
+|--------|-----|-----------|
+| GET | /endereco/{cep} | Obtém um endereço específico |
 
 #### Contatos
 
