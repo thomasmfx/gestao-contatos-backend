@@ -22,12 +22,12 @@ public class ContatoService {
     private final ContatoRepository contatoRepository;
     private final ClienteRepository clienteRepository;
     private final ContatoMapper contatoMapper;
-    private static final String CLIENTE_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
-    private static final String CONTATO_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
+    private static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
+    private static final String CONTATO_NAO_ENCONTRADO = "Contato não encontrado";
 
     public Contato saveContato(ContatoRequestDTO dados) {
         Cliente cliente = clienteRepository.findById(dados.clienteId())
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + dados.clienteId()));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO));
 
         Contato dadosContato = Contato.builder()
                 .cliente(cliente)
@@ -56,15 +56,15 @@ public class ContatoService {
 
     public ContatoResponseDTO getContatoById(Integer id) {
         Contato contato = contatoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO));
         return contatoMapper.toContatoResponseDTO(contato);
     }
 
     public ContatoResponseDTO updateContato(Integer id, ContatoRequestDTO dadosContato) {
         Contato updateContato = contatoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO));
         Cliente cliente = clienteRepository.findById(dadosContato.clienteId())
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO));
 
         updateContato.setCliente(cliente);
         updateContato.setTipo(dadosContato.tipo());
@@ -78,7 +78,7 @@ public class ContatoService {
 
     public void deleteContato(Integer id) {
         Contato deleteContato = contatoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CONTATO_NAO_ENCONTRADO));
         contatoRepository.delete(deleteContato);
     }
 }
