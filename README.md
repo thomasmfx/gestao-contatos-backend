@@ -99,13 +99,13 @@ cd gestao-contatos-backend
 
 ## Configuração das variáveis de ambiente
 
-Para estabelecer a conexão com o banco de dados, crie um arquivo `.env` na raíz do projeto e configure as variáveis:
+Para estabelecer a conexão com o banco de dados, crie um arquivo `.env` na raíz do projeto e configure as seguintes variáveis (exceto `DATABASE_HOST` e `DATABASE_PORT`):
 
 ```js
 DATABASE_USER={$DATABASE_USER}
 DATABASE_PASSWORD={$DATABASE_PASSWORD}
-DATABASE_HOST=db // Não alterar
-DATABASE_PORT=5432 // Não alterar
+DATABASE_HOST=db
+DATABASE_PORT=5432
 DATABASE_NAME={$DATABASE_NAME}
 ```
 
