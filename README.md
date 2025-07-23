@@ -104,8 +104,8 @@ Para estabelecer a conexão com o banco de dados, crie um arquivo `.env` na raí
 ```js
 DATABASE_USER={$DATABASE_USER}
 DATABASE_PASSWORD={$DATABASE_PASSWORD}
-DATABASE_HOST={$DATABASE_HOST}
-DATABASE_PORT={$DATABASE_PORT}
+DATABASE_HOST=db // Não alterar
+DATABASE_PORT=5432 // Não alterar
 DATABASE_NAME={$DATABASE_NAME}
 ```
 
