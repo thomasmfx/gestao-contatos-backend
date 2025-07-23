@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Cliente {
 
     @Id

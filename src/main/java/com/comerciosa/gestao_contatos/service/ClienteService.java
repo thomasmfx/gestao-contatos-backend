@@ -22,8 +22,8 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
     private final EnderecoRepository enderecoRepository;
     private final ClienteMapper clienteMapper;
-    private static final String CLIENTE_NAO_ENCONTRADO_COM_ID = "Cliente não encontrado com o ID: ";
-    private static final String ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID = "Endereço não encontrado com o Cliente ID: ";
+    private static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
+    private static final String ENDERECO_NAO_ENCONTRADO = "Endereço não encontrado";
 
     public Cliente saveCliente(ClienteRequestDTO dados) {
         String cpfLimpo = dados.cpf().replaceAll("[\\D]", "");
@@ -69,9 +69,9 @@ public class ClienteService {
 
     public ClienteResponseDTO getClienteById(Integer id) {
         Cliente cliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO));
         Endereco enderecoCliente = enderecoRepository.findByClienteId(cliente.getId())
-                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO));
 
         cliente.setEndereco(enderecoCliente);
 
@@ -80,9 +80,9 @@ public class ClienteService {
 
     public Cliente updateCliente(Integer id, Cliente dadosCliente) {
         Cliente updateCliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO));
         Endereco updateEnderecoCliente = enderecoRepository.findByClienteId(id)
-                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO_COM_CLIENTE_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(ENDERECO_NAO_ENCONTRADO));
 
         Endereco enderecoCliente = dadosCliente.getEndereco();
 
@@ -106,7 +106,7 @@ public class ClienteService {
 
     public void deleteCliente(Integer id) {
         Cliente deleteCliente = clienteRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO_COM_ID + id));
+                .orElseThrow(() -> new ResourceNotFoundException(CLIENTE_NAO_ENCONTRADO));
 
         clienteRepository.delete(deleteCliente);
     }

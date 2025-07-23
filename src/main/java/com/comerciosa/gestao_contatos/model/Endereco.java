@@ -24,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder(toBuilder = true)
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode
 public class Endereco {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
